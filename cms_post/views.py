@@ -14,6 +14,7 @@ FORMULARIO = """
     <input type='submit' value='Enviar'></form>
 """
 
+
 def barra(request):
     content = Pages.objects.all()
     if request.user.is_authenticated():
@@ -27,6 +28,7 @@ def barra(request):
         respuesta += "</ul></li>"
     return HttpResponse(respuesta)
 
+
 @csrf_exempt
 def edit(request, resource):
     if request.method == 'GET':
@@ -34,19 +36,24 @@ def edit(request, resource):
             pagina = Pages.objects.get(name=resource)
             respuesta = pagina.page + "<br>"
             if request.user.is_authenticated():
-                respuesta += "<br>Rellene el formulario si se desea editar la pagina:<br>"
+                respuesta += "<br>Rellene el formulario si se "
+                respuesta += "desea editar la pagina:<br>"
                 respuesta += FORMULARIO
             else:
-                volver = '<a href="http://localhost:8000/">Volver a la pagina principal</a>'
-                respuesta += "Es necesario hacer login para editar una pagina ya existente. "
+                volver = '<a href="http://localhost:8000/">'
+                volver += 'Volver a la pagina principal</a>'
+                respuesta += "Es necesario hacer login para "
+                respuesta += "editar una pagina ya existente. "
                 return HttpResponse(respuesta + volver)
         except Pages.DoesNotExist:
             if request.user.is_authenticated():
                 respuesta = "La página no existe<br>"
-                respuesta += "<br>Rellene el formulario para crear una nueva pagina:<br>"
+                respuesta += "<br>Rellene el formulario para "
+                respuesta += "crear una nueva pagina:<br>"
                 respuesta += FORMULARIO
             else:
-                volver = '<a href="http://localhost:8000/">Volver a la pagina principal</a>'
+                volver = '<a href="http://localhost:8000/">'
+                volver += 'Volver a la pagina principal</a>'
                 respuesta = "La página no existe. Es necesario "
                 respuesta += "iniciar sesión para crear una nueva página. "
                 return HttpResponse(respuesta + volver)
@@ -63,18 +70,22 @@ def edit(request, resource):
                 pag_nueva = Pages(name=resource, page=page)
                 pag_nueva.save()
             respuesta = "Pagina guardada<br>"
-            respuesta += "<br>Rellene el formulario si desea editar la pagina:<br>"
+            respuesta += "<br>Rellene el formulario si "
+            respuesta += "desea editar la pagina:<br>"
             respuesta += FORMULARIO
         else:
-            volver = '<a href="http://localhost:8000/">Volver a la pagina principal</a>'
-            respuesta = "No se ha podido guardar la pagina. Es necesario iniciar sesión. "
+            volver = '<a href="http://localhost:8000/">'
+            volver += 'Volver a la pagina principal</a>'
+            respuesta = "No se ha podido guardar la pagina. "
+            respuesta += "Es necesario iniciar sesión. "
             return HttpResponse(respuesta + volver)
     else:
         respuesta = "Method not allowed"
     return HttpResponse(respuesta)
 
+
 def error(request):
-    volver = '<a href="http://localhost:8000/">Volver a la pagina principal</a>'
+    volver = '<a href="http://localhost:8000/">'
+    volver += 'Volver a la pagina principal</a>'
     respuesta = "Ha ocurrido un error: la pagina no esta disponible. "
     return HttpResponse(respuesta + volver)
-        
