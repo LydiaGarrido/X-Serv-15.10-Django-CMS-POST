@@ -14,6 +14,11 @@ FORMULARIO = """
     <input type='submit' value='Enviar'></form>
 """
 
+VOLVER = """
+    <a href="http://localhost:8000/">
+    Volver a la pagina principal</a>
+"""
+
 
 def barra(request):
     content = Pages.objects.all()
@@ -40,11 +45,9 @@ def edit(request, resource):
                 respuesta += "desea editar la pagina:<br>"
                 respuesta += FORMULARIO
             else:
-                volver = '<a href="http://localhost:8000/">'
-                volver += 'Volver a la pagina principal</a>'
                 respuesta += "Es necesario hacer login para "
                 respuesta += "editar una pagina ya existente. "
-                return HttpResponse(respuesta + volver)
+                return HttpResponse(respuesta + VOLVER)
         except Pages.DoesNotExist:
             if request.user.is_authenticated():
                 respuesta = "La página no existe<br>"
@@ -52,11 +55,9 @@ def edit(request, resource):
                 respuesta += "crear una nueva pagina:<br>"
                 respuesta += FORMULARIO
             else:
-                volver = '<a href="http://localhost:8000/">'
-                volver += 'Volver a la pagina principal</a>'
                 respuesta = "La página no existe. Es necesario "
                 respuesta += "iniciar sesión para crear una nueva página. "
-                return HttpResponse(respuesta + volver)
+                return HttpResponse(respuesta + VOLVER)
 
     elif request.method == 'POST':
         if request.user.is_authenticated():
@@ -74,18 +75,14 @@ def edit(request, resource):
             respuesta += "desea editar la pagina:<br>"
             respuesta += FORMULARIO
         else:
-            volver = '<a href="http://localhost:8000/">'
-            volver += 'Volver a la pagina principal</a>'
             respuesta = "No se ha podido guardar la pagina. "
             respuesta += "Es necesario iniciar sesión. "
-            return HttpResponse(respuesta + volver)
+            return HttpResponse(respuesta + VOLVER)
     else:
         respuesta = "Method not allowed"
     return HttpResponse(respuesta)
 
 
 def error(request):
-    volver = '<a href="http://localhost:8000/">'
-    volver += 'Volver a la pagina principal</a>'
     respuesta = "Ha ocurrido un error: la pagina no esta disponible. "
-    return HttpResponse(respuesta + volver)
+    return HttpResponse(respuesta + VOLVER)
