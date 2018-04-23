@@ -21,7 +21,7 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^login', login, {'template_name': 'registration/login.html'}),
     url(r'^logout', logout, {'next_page': '/'}),
-    url(r'^edit/(.d*)', views.edit, name='Recurso'),
+    url(r'^edit/(.*)', views.edit, name='Recurso'),
     url(r'^$', views.barra, name='Inicio'),
     url(r'.*', views.error, name='Error'),
  
