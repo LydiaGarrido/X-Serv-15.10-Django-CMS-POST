@@ -24,5 +24,4 @@ urlpatterns = [
     url(r'^edit/(.*)', views.edit, name='Recurso'),
     url(r'^$', views.barra, name='Inicio'),
     url(r'.*', views.error, name='Error'),
- 
 ]
